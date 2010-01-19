@@ -1,0 +1,76 @@
+= Speed
+
+Quick and easy timing for ruby methods which can be used to time code in controllers or models for rails
+
+== Installation
+
+Speed can be installed either as a rails plugin or as a gem.
+
+== Basic Usage
+
+Speed is extremely easy to use, and super light weight. All you need to do is include Speed into the class or module you require timed methods for, and put your code that you need timed into our timer block, and the results can be viewed with the 'speed' method, which is a hash of all your timers.
+
+  require 'rubygems'
+  require 'speed'
+  
+  module TestSpeed
+    include Speed
+    
+    def TimeMe
+      timer(:time_me_method) do
+       sleep(2)
+      end
+      
+      puts speed[:time_me_method]   # Will return the speed in seconds
+    end
+  end
+  
+Speed also allows you to have multiple timers in timers, so you can break your code into different timed blocks.
+
+== Usage in Rails
+
+We created this gem to time how long some of our controllers took to render. This is how we use it:
+
+  class SearchController < ApplicationController
+    include Speed
+    
+    def results
+      timer(:results) do
+        @results = Product.search(params[:keyword])
+      end
+      
+      @timer = speed[:results]
+    end
+  end
+
+If you install this gem as a rails plugin, you wont need to 'include Speed' in your controllers or models. This would be done for you.
+
+
+  
+Follow me on twitter: http://twitter.com/ryan_za
+
+Email: ryan *at* platform45.com
+
+
+== License
+
+Copyright (c) 2009 Platform45
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
